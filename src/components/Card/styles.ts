@@ -6,4 +6,5 @@ export const Price = styled.p`
   text-align: center;
   font-size: 1.25rem;
   color: var(--text-color-secondary);
+  margin-top: auto;
 `;

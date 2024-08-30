@@ -13,6 +13,8 @@ const CardSX = {
   },
   maxWidth: 335,
   cursor: 'pointer',
+  display: 'flex',
+  flexDirection: 'column',
 };
 
 export const Card = ({ property }: { property: Property }) => {
@@ -30,6 +32,7 @@ export const Card = ({ property }: { property: Property }) => {
         sx={{ height: 160 }}
         image={imageUrl}
         title={`Imagem do imóvel: ${title}`}
+        component='img'
       />
       <CardContent>
         <Typography

@@ -9,7 +9,6 @@ export const List = ({ properties }: { properties: Property[] }) => {
       sx={{
         width: '100%',
         maxWidth: '80rem',
-        bgcolor: 'background.paper',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
