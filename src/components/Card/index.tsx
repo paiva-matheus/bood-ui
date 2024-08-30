@@ -43,7 +43,10 @@ export const Card = ({ property }: { property: Property }) => {
         >
           {title}
         </Typography>
-        <Typography variant='body2' sx={{ color: 'var(--text-color)' }}>
+        <Typography
+          variant='body2'
+          sx={{ color: 'var(--text-color)', fontSize: '1rem' }}
+        >
           {description}
         </Typography>
         <List
