@@ -1,8 +1,12 @@
-import { Property, PropertyDto } from '@/models/property';
+import { Property, PropertyDto } from '@/properties/dto/property.dto';
 import BaseAPI from '@/services/base-api';
+import { Pagination } from '@/types/pagination.types';
+
+type ListAllParams = SortParams | Pagination;
 
 type ListAllResponse = {
-  properties: Property[] | [];
+  properties: Property[];
+  pagination?: Pagination;
   isSuccess: boolean;
   error?: any;
 };
@@ -14,21 +18,27 @@ type GetByIdResponse = {
 };
 
 export class PropertiesService extends BaseAPI {
-  async listAll(): Promise<ListAllResponse> {
+  async listAll(params: ListAllParams): Promise<ListAllResponse> {
     try {
-      const properties = await this.http.get(`/properties`).then((res) => {
-        return res.data.data.map((data: any) =>
-          new PropertyDto({
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            imageUrl: data.imageUrl,
-            price: data.price,
-          }).toJSON()
-        );
-      });
+      const response = await this.http
+        .get(`/properties`, {
+          params: params,
+        })
+        .then((response) => response.data);
 
-      return { properties, isSuccess: true };
+      const pagination = response.pagination;
+      const properties = response.data.map((property: any) =>
+        new PropertyDto({
+          id: property.id,
+          title: property.title,
+          description: property.description,
+          imageUrl: property.imageUrl,
+          price: property.price,
+          features: property.features,
+        }).toJSON()
+      );
+
+      return { properties, pagination, isSuccess: true };
     } catch (error: any) {
       return {
         properties: [],
@@ -57,6 +67,7 @@ export class PropertiesService extends BaseAPI {
       description: data.description,
       imageUrl: data.imageUrl,
       price: data.price,
+      features: data.features,
     }).toJSON();
 
     return { property, isSuccess: true };

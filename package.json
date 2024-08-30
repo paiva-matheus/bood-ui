@@ -16,13 +16,17 @@
     "@emotion/react": "^11.13.3",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
     "axios": "^1.7.4",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "styled-components": "^6.1.12"
+    "react-hook-form": "^7.53.0",
+    "react-toastify": "^10.0.5",
+    "styled-components": "^6.1.12",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

@@ -1,6 +1,6 @@
 import { propertyFixture } from './fixtures/property';
 import { api } from '@/services/axios';
-import { PropertiesService } from '@/services/properties-service';
+import { PropertiesService } from '@/properties/services/properties.service';
 import { faker } from '@faker-js/faker';
 
 const mockGet = jest.spyOn(api, 'get');
@@ -11,26 +11,39 @@ describe('listAll', () => {
     const mockProperties = [propertyFixture(), propertyFixture()];
     const expectedProperties = mockProperties.map((property) => ({
       ...property,
-      price: new Intl.NumberFormat('pt-BR', {
+      formattedPrice: new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
       }).format(property.price),
     }));
 
+    const mockPagination = {
+      page: 1,
+      pageSize: 5,
+      totalRecords: 10,
+      totalPages: 2,
+    };
+
     const mockedResponse = {
       status: 200,
-      data: { data: mockProperties },
+      data: { data: mockProperties, pagination: mockPagination },
       statusText: 'OK',
       headers: {},
       config: {},
     };
 
     mockGet.mockResolvedValueOnce(mockedResponse);
-    const { isSuccess, properties } = await service.listAll();
+    const { isSuccess, properties, pagination } = await service.listAll({
+      sortBy: 'price',
+      sortOrder: 'desc',
+    });
 
     expect(isSuccess).toEqual(true);
     expect(properties).toEqual(expectedProperties);
-    expect(mockGet).toHaveBeenCalledWith('/properties');
+    expect(pagination).toEqual(mockPagination);
+    expect(mockGet).toHaveBeenCalledWith('/properties', {
+      params: { sortBy: 'price', sortOrder: 'desc' },
+    });
   });
 });
 
@@ -39,7 +52,7 @@ describe('getById', () => {
     const mockProperty = propertyFixture();
     const expectedProperty = {
       ...mockProperty,
-      price: new Intl.NumberFormat('pt-BR', {
+      formattedPrice: new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
       }).format(mockProperty.price),
