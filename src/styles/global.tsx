@@ -24,10 +24,11 @@ export default createGlobalStyle`
    --text-color-secondary: #FFFFFF;
    --blue: #4362E9;
    --green: #61CBAA;
+   --dark-blue: #1D1C4E
 }
  
  body {
-   background: #fff;
+  background: #fbfbfb;
  }
  
  html {
